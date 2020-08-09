@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
+<?import javafx.scene.layout.VBox?>
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0"
            prefWidth="750.0" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx"
            xmlns:fx="http://javafx.com/fxml">

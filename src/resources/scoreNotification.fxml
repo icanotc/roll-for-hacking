@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="80.0"
+           prefWidth="750.0" style="-fx-background-color: grey;" xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml" fx:controller="graphics.scoreController">
+    <VBox>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+            <Label style="-fx-font-size: 20; -fx-font-family: serif;" text="Congratulations, you have earned" textFill="#4ac7a2"/>
+            <Label style="-fx-font-size: 35; -fx-font-family: serif;" text="\$SCORE\" textFill="#1b4a3c"/>
+            <Label style="-fx-font-size: 20; -fx-font-family: serif;" text="points"
+                   textFill="#4ac7a2"/>
+        </HBox>
+        <Button fx:id="returnButton" onAction="#returnMethod" text="Return" alignment="CENTER"/>
+    </VBox>
+
+</StackPane>

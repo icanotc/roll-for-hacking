@@ -8,7 +8,7 @@ import javafx.scene.text.Font;
 public class Counter {
 
     public static Label child = new Label();
-    private static int value;
+    public static int value;
 
     static {
         child.setFont(new Font("serif", 16));

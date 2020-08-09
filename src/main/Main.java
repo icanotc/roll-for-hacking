@@ -4,21 +4,25 @@ import graphics.CellLoader;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Pos;
 import javafx.scene.layout.StackPane;
-import logic.Room;
-import logic.RoomGenerator;
-import logic.Updater;
+import logic.*;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import tile.Avatar;
 import tile.TileLinker;
 
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
 
 public class Main extends Application {
 
-    public static StackPane root = new StackPane();
-
+    public static StackPane root;
+    public static Timer gameTimer;
+    public static AnimationTimer animationTimer;
+    public static Scene primaryScene;
+    public static Stage currentStage;
 
     public static void do_nothing() {
 
@@ -49,6 +53,20 @@ public class Main extends Application {
 
     }
 
+    public static void initialize() throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException, IOException, ParseException {
+        root  = new StackPane();
+        Updater.currentRoom = RoomGenerator.generateRoom(Room.RoomType.REGULAR_ROOM, new int[]{0, 0});
+        CellLoader.loadAll();
+        gameTimer = new Timer();
+        root.getChildren().add(gameTimer.timerDisplay);
+        primaryScene.setRoot(root);
+        root.getChildren().add(CellLoader.gameDisplay);
+        root.getChildren().add(logic.Counter.child);
+        CellLoader.gameDisplay.setAlignment(Pos.CENTER);
+        Counter.value = 0;
+        Updater.avatar = new Avatar();
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -62,16 +80,11 @@ public class Main extends Application {
 //        Updater.rooms[0][0] = RoomGenerator.generateRoom(Room.RoomType.STARTING_ROOM, new int[]{0, 0});
 //        currentRoom = Updater.rooms[currentRoomID[0]][currentRoomID[1]]; // to ensure that the room is displayed correctly
 
-
-        Updater.currentRoom = RoomGenerator.generateRoom(Room.RoomType.REGULAR_ROOM, new int[]{0, 0});
-        CellLoader.loadAll();
-        root.getChildren().add(CellLoader.gameDisplay);
-        root.getChildren().add(logic.Counter.child);
-        CellLoader.gameDisplay.setAlignment(Pos.CENTER);
+        primaryScene = new Scene(new StackPane(), 750, 500);
+        initialize();
         primaryStage.setTitle("Game");
-        Scene scene = new Scene(root, 740, 500);
-        primaryStage.setScene(scene);
-        scene.setOnKeyPressed(e -> {
+        primaryStage.setScene(primaryScene);
+        primaryScene.setOnKeyPressed(e -> {
             try {
                 Updater.update(e);
             } catch (NoSuchMethodException noSuchMethodException) {
@@ -85,14 +98,18 @@ public class Main extends Application {
             }
         });
 
-        logic.Timer gameTimer = new logic.Timer();
-        root.getChildren().add(gameTimer.timerDisplay);
-        new AnimationTimer(){
+        animationTimer = new AnimationTimer(){
             @Override
             public void handle(long x) {
-                gameTimer.update();
+                try {
+                    gameTimer.update();
+                } catch (IOException | InterruptedException | NullPointerException e) {
+                    e.printStackTrace();
+                    System.exit(1);
+                }
             }
-        }.start();
+        };
+        animationTimer.start();
 
         primaryStage.show();
     }

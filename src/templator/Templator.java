@@ -98,7 +98,7 @@ public class Templator {
         }
 
         // put all the gathered data into the class variables
-        varPositions = positions.toArray(new int[2][positions.size()]);
+        varPositions = positions.toArray(new int[0][0]);
         varNames = names.toArray(new String[0]);
 
     }
